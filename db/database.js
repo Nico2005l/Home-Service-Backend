@@ -9,4 +9,4 @@ const db = new sqlite3.Database(path.resolve(__dirname, 'data.db'), (err) => {
   }
 });
 
-module.exports = db;
+module.exports = db; 
