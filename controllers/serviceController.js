@@ -114,3 +114,16 @@ exports.delete = (req, res) => {
     }
   );
 };
+
+exports.update = (req, res) => {
+  const { id } = req.params;
+  const { name, description, category, price } = req.body;
+  db.run(
+    `UPDATE services SET name = ?, description = ?, category = ?, price = ? WHERE id = ?`,
+    [name, description, category, price, id],
+    function (err) {
+      if (err) return res.status(400).json({ error: err.message });
+      res.json({ updated: this.changes });
+    }
+  );
+};
