@@ -127,3 +127,16 @@ exports.update = (req, res) => {
     }
   );
 };
+exports.getById = (req, res) => {
+  const id = req.params.id;
+
+  db.get('SELECT * FROM services WHERE id = ?', [id], (err, row) => {
+    if (err) return res.status(500).json({ error: err.message });
+
+    if (row) {
+      res.json(row);
+    } else {
+      res.status(404).json({ error: 'Post no encontrado' });
+    }
+  });
+}

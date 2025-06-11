@@ -1,8 +1,11 @@
+require('dotenv').config();
+console.log('CLOUDINARY_CLOUD_NAME:', process.env.CLOUDINARY_CLOUD_NAME);
+console.log('CLOUDINARY_API_SECRET:', process.env.CLOUDINARY_API_SECRET);
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
 const fs = require('fs');
 const db = require('./db/database');
+
 
 const authRoutes = require('./routes/authRoutes');
 const serviceRoutes = require('./routes/serviceRoutes');
