@@ -21,6 +21,13 @@ CREATE TABLE IF NOT EXISTS services (
   price REAL
 );
 
+CREATE TABLE IF NOT EXISTS service_images (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  service_id INTEGER NOT NULL,
+  image_url TEXT NOT NULL,
+  FOREIGN KEY (service_id) REFERENCES services(id)
+);
+
 CREATE TABLE IF NOT EXISTS bookings (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER,
@@ -41,6 +48,8 @@ CREATE TABLE IF NOT EXISTS reviews (
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (service_id) REFERENCES services(id)
 );
+
+
 
 
 
