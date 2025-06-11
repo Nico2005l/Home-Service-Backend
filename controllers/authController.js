@@ -35,7 +35,6 @@ exports.login = (req, res) => {
         phone: user.telefono,
         dni: user.dni,
         role: user.role
-        // agrega aquí otras propiedades si tienes más
       },
       token
     });
