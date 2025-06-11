@@ -3,12 +3,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 exports.register = (req, res) => {
-  const { nombre, apellido, email, telefono, dni, password } = req.body;
+  const { nombre, apellido, email, telefono, dni, password, birthdate, location } = req.body;
   const hash = bcrypt.hashSync(password, 10);
 
   db.run(
-    `INSERT INTO users (nombre, apellido, email, telefono, dni, password) VALUES (?, ?, ?, ?, ?, ?)`,
-    [nombre, apellido, email, telefono, dni, hash],
+    `INSERT INTO users (nombre, apellido, email, telefono, dni, password, birthdate, location) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    [nombre, apellido, email, telefono, dni, hash, birthdate, location],
     function (err) {
       if (err) return res.status(400).json({ error: err.message });
       res.status(201).json({ id: this.lastID, nombre, email });
