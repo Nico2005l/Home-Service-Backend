@@ -25,6 +25,19 @@ exports.login = (req, res) => {
     if (!isValid) return res.status(401).json({ error: 'Credenciales inválidas' });
 
     const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET);
-    res.json({ token });
+    res.json({
+      user: {
+        id: user.id,
+        name: user.nombre + ' ' + user.apellido,
+        email: user.email,
+        birthdate: user.birthdate || null,
+        location: user.location || null,
+        phone: user.telefono,
+        dni: user.dni,
+        role: user.role
+        // agrega aquí otras propiedades si tienes más
+      },
+      token
+    });
   });
 };
