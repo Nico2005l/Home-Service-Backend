@@ -25,6 +25,54 @@ exports.login = (req, res) => {
     if (!isValid) return res.status(401).json({ error: 'Credenciales inválidas' });
 
     const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET);
-    res.json({ token });
+    res.json({ token, role: user.role });
+  });
+};
+
+exports.getProfile = (req, res) => {
+  // Obtener el token del header Authorization
+  const authHeader = req.headers['authorization'];
+  if (!authHeader) return res.status(401).json({ error: 'Token requerido' });
+
+  const token = authHeader.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'Token inválido' });
+
+  // Verificar el token
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) return res.status(401).json({ error: 'Token inválido' });
+
+    const userId = decoded.id;
+    db.get(
+      `SELECT nombre, apellido, email, telefono, dni FROM users WHERE id = ?`,
+      [userId],
+      (err, user) => {
+        if (err || !user) return res.status(404).json({ error: 'Usuario no encontrado' });
+        res.json(user);
+      }
+    );
+  });
+};
+
+exports.editProfile = (req, res) => {
+  const authHeader = req.headers['authorization'];
+  if (!authHeader) return res.status(401).json({ error: 'Token requerido' });
+
+  const token = authHeader.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'Token inválido' });
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) return res.status(401).json({ error: 'Token inválido' });
+
+    const userId = decoded.id;
+    const { nombre, apellido, telefono } = req.body;
+
+    db.run(
+      `UPDATE users SET nombre = ?, apellido = ?, telefono = ? WHERE id = ?`,
+      [nombre, apellido, telefono, userId],
+      function (err) {
+        if (err) return res.status(400).json({ error: err.message });
+        res.json({ message: 'Perfil actualizado correctamente' });
+      }
+    );
   });
 };
