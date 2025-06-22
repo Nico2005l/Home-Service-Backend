@@ -2,6 +2,9 @@ const db = require('../db/database');
 
 exports.create = (req, res) => {
   const { user_id, service_id, rating, comment } = req.body;
+  if (!user_id || !service_id || !rating) {
+    return res.status(400).json({ error: 'Faltan campos requeridos' });
+  }
   db.run(
     `INSERT INTO reviews (user_id, service_id, rating, comment) VALUES (?, ?, ?, ?)`,
     [user_id, service_id, rating, comment],

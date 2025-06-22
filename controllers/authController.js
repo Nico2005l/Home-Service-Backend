@@ -44,7 +44,7 @@ exports.getProfile = (req, res) => {
 
     const userId = decoded.id;
     db.get(
-      `SELECT nombre, apellido, email, telefono, dni FROM users WHERE id = ?`,
+      `SELECT id, nombre, apellido, email, telefono, dni FROM users WHERE id = ?`,
       [userId],
       (err, user) => {
         if (err || !user) return res.status(404).json({ error: 'Usuario no encontrado' });
