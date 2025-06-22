@@ -51,7 +51,8 @@ exports.getProfile = (req, res) => {
        res.json({
       user: {
         id: user.id,
-        name: user.nombre + ' ' + user.apellido,
+        name: user.nombre,
+        lastname: user.apellido,
         email: user.email,
         birthdate: user.fechanacimiento || null,
         location: user.ubicacion || null,
@@ -77,11 +78,11 @@ exports.editProfile = (req, res) => {
     if (err) return res.status(401).json({ error: 'Token inválido' });
 
     const userId = decoded.id;
-    const { nombre, apellido, telefono } = req.body;
+    const { name, lastName, phone } = req.body;
 
     db.run(
       `UPDATE users SET nombre = ?, apellido = ?, telefono = ? WHERE id = ?`,
-      [nombre, apellido, telefono, userId],
+      [name, lastName, phone, userId],
       function (err) {
         if (err) return res.status(400).json({ error: err.message });
         res.json({ message: 'Perfil actualizado correctamente' });
