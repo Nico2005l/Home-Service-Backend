@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
 -- Crear tabla de servicios
 CREATE TABLE IF NOT EXISTS services (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER,
   name TEXT NOT NULL,
   description TEXT,
   category TEXT,
@@ -48,6 +49,9 @@ CREATE TABLE IF NOT EXISTS reviews (
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (service_id) REFERENCES services(id)
 );
+
+
+
 
 
 

@@ -9,6 +9,7 @@ const streamifier = require('streamifier');
 // Rutas CRUD básicas
 router.get('/', controller.getAll);
 router.get('/:id', controller.getById);
+router.get('/user/:id', controller.getByUserId);
 router.post('/', controller.create);
 router.put('/:id', controller.update);
 router.delete('/:id', controller.delete);

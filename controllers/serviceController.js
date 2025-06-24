@@ -45,12 +45,32 @@ exports.getById = (req, res) => {
   });
 };
 
+// GET by USER_ID con imágenes
+exports.getByUserId = (req, res) => {
+  const id = req.params.id;
+
+  const serviceSql = `SELECT * FROM services WHERE user_id = ?`;
+  const imagesSql = `SELECT image_url FROM service_images WHERE service_id = ?`;
+
+  db.get(serviceSql, [id], (err, service) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (!service) return res.status(404).json({ error: 'Servicio no encontrado' });
+
+    db.all(imagesSql, [id], (imgErr, rows) => {
+      if (imgErr) return res.status(500).json({ error: imgErr.message });
+
+      service.images = rows.map(row => row.image_url);
+      res.json(service);
+    });
+  });
+};
+
 // CREATE con imágenes
 exports.create = (req, res) => {
-  const { name, description, category, price, images } = req.body;
+  const { name, user_id, description, category, price, images } = req.body;
   db.run(
-    `INSERT INTO services (name, description, category, price) VALUES (?, ?, ?, ?)`,
-    [name, description, category, price],
+    `INSERT INTO services (name, user_id, description, category, price) VALUES (?, ?, ?, ?, ?)`,
+    [name, user_id, description, category, price],
     function (err) {
       if (err) return res.status(400).json({ error: err.message });
 
