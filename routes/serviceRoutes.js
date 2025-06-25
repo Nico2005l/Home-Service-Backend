@@ -13,10 +13,7 @@ router.get('/user/:id', controller.getByUserId);
 router.post('/', controller.create);
 router.put('/:id', controller.update);
 router.delete('/:id', controller.delete);
-const { getAllServices, deleteService } = require('../controllers/serviceController');
 
-router.get('/', getAllServices);         // GET /api/services
-router.delete('/:id', deleteService);    // DELETE /api/services/:id
 
 // Ruta para subir una imagen a Cloudinary
 router.post('/upload-image', upload.single('image'), async (req, res) => {
