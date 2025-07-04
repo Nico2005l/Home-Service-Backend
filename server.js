@@ -38,6 +38,7 @@ console.log('Auth routes:', listEndpoints(authRoutes).map(e => ({ endpoint: '/ap
 console.log('Service routes:', listEndpoints(serviceRoutes).map(e => ({ endpoint: '/api/services' + e.path, method: e.methods })));
 console.log('Booking routes:', listEndpoints(bookingRoutes).map(e => ({ endpoint: '/api/bookings' + e.path, method: e.methods })));
 console.log('Review routes:', listEndpoints(reviewRoutes).map(e => ({ endpoint: '/api/reviews' + e.path, method: e.methods })));
+console.log('User routes:', listEndpoints(userRoutes).map(e => ({ endpoint: '/api/users' + e.path, method: e.methods })));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor en http://localhost:${PORT}`));
